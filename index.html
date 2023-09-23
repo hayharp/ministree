@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<head>
+    <title>Discipleship Tree Maker</title>
+</head>
+<link type="text/css" href="dtm.css" rel="stylesheet"/>
+<div class="input-container">
+    <table id="input-table">
+        <tr class="header">
+            <th>Name</th>
+            <th>Studies Under</th>
+            <th>Role</th>
+        </tr>
+        <tr id="r1">
+            <td contenteditable="true" class="name">John Doe</td>
+            <td contenteditable="true" class="parent">Jimmy Doe</td>
+            <td class="role">
+                <select name="role">
+                    <option value="none">N/A</option>
+                    <option value="servant_team">Servant Team</option>
+                    <option value="high_schooler">High Schooler</option>
+                    <option value="follow_up">Follow-Up</option>
+                    <option value="other_leaders">Other Leaders</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="button-box">
+    <div>
+        <button id="new-row">Add Row</button>
+        <button id="rm-row">Remove Row</button>
+    </div><br>
+    <div>
+        <button id="clear-table">Clear Table</button>
+    </div><br>
+    <div>
+        <button id="gen-org-chart">Generate Tree</button>
+    </div>
+</div>
+<div class="tree-container" id="tree-box"></div>
+<canvas id="tree-lines" class="canvas"></canvas>
+<script src="dtm.js"></script>

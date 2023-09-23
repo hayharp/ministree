@@ -1,0 +1,65 @@
+.input-container {
+    width: 20%;
+    padding-left: 1%;
+    z-index: 1;
+    max-height: 80vh;
+    overflow: scroll;
+}
+
+.button-box {
+    position: absolute;
+    left: 1%;
+    bottom: 1vh;
+    z-index: 1;
+}
+
+table, th, td {
+    border: 1px solid;
+    border-collapse: collapse;
+    z-index: 1;
+}
+
+th, td {
+    padding: 7px;
+    text-align: center;
+    z-index: 1;
+}
+
+canvas {
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    touch-action: none;
+    z-index: -1;
+}
+
+button {
+    float: bottom;
+}
+
+.tree-container {
+    position: fixed;
+    left: 25%;
+    top: 0%;
+    width: 75%;
+    height: 100%;
+    background: lightgray;
+    justify-content: left;
+    z-index: -1;
+}
+
+.row {
+    width: 100%;
+    text-align: center;
+}
+
+.tree-node {
+    z-index: 1;
+    position: absolute;
+    text-align: center;
+    top: 10%;
+    padding: 5px;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 1.5vw;
+}
