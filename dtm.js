@@ -7,8 +7,14 @@ var clear_table_btn = document.getElementById('clear-table')
 
 if (localStorage.getItem('input-table')) {
     document.getElementById('input-table').innerHTML = localStorage.getItem('input-table')
+    var input_table = document.getElementById('input-table')
+    let table_values = Array.from(input_table.getElementsByTagName('select'))
+    for (select in table_values) {
+        table_values[select].value = table_values[select].getAttribute('value')
+    }
+} else {
+    var input_table = document.getElementById('input-table')
 }
-var input_table = document.getElementById('input-table')
 var input_table_rows = input_table.getElementsByTagName('tbody')[0].getElementsByTagName('tr')
 var current_row = input_table_rows.length - 1
 
@@ -20,7 +26,7 @@ new_row_btn.addEventListener('click', function() {  // Adds an empty row to the 
         `<td contenteditable="true" class="name"></td>
         <td contenteditable="true" class="parent"></td>
         <td class="role">
-            <select name="role">
+            <select name="role" value="none">
                 <option value="none">N/A</option>
                 <option value="servant_team">Servant Team</option>
                 <option value="high_schooler">High Schooler</option>
@@ -176,6 +182,13 @@ function get_good_font_size(width, text) { // Gets an appropriate font size
 }
 
 gen_btn.addEventListener('click', function() { // Generates org chart
+    let table_values = Array.from(input_table.getElementsByTagName('select'))
+    for (select in table_values) {
+        console.log(select)
+        console.log(table_values[select])
+        //console.log(select, table_values[select].value)
+        table_values[select].setAttribute('value',  table_values[select].value) 
+    }
     localStorage.setItem('input-table', input_table.innerHTML) // Saves the input table when the tree is generated
     tree_box.innerHTML = ''
     ctx.clearRect(0, 0, canvas.width, canvas.height)
