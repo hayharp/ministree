@@ -219,7 +219,7 @@ gen_btn.addEventListener('click', function() { // Generates org chart
                 }
                 row_div.appendChild(new_box)
             }
-        } else {
+        } else { // All other rows
             for (person in dimensions[parseInt(row - 1)]['people']) {
                 let parent = dimensions[parseInt(row - 1)]['people'][person]
                 let parent_node = document.getElementById(parent)
@@ -238,7 +238,6 @@ gen_btn.addEventListener('click', function() { // Generates org chart
                         working_width += space_right / 4
                     }
                 }
-                console.log(space_right, parent)
                 for (child in tree[parent]['children']) {
                     let new_box = document.createElement('div')
                     new_box.id = tree[parent]['children'][child]
@@ -266,7 +265,6 @@ gen_btn.addEventListener('click', function() { // Generates org chart
             'y': rect['bottom'] + 1
         }
         for (child in tree[person]['children']) {
-            console.log(tree[person]['children'][child])
             let child_rect = document.getElementById(tree[person]['children'][child]).getBoundingClientRect()
             let top_center = {
                 'x': child_rect['x'] + child_rect['width']/2,
