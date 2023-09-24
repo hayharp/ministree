@@ -26,16 +26,12 @@
     </table>
 </div>
 <div class="button-box">
-    <div>
-        <button id="new-row">Add Row</button>
-        <button id="rm-row">Remove Row</button>
-    </div><br>
-    <div>
-        <button id="clear-table">Clear Table</button>
-    </div><br>
-    <div>
-        <button id="gen-org-chart">Generate Tree</button>
-    </div>
+    <label for="split-num">Split lines at root number:</label>
+    <input id="split-num" type="number" name="split-num" value="5" style="width: 15%;"><br>
+    <button id="new-row">Add Row</button>
+    <button id="rm-row">Remove Row</button>
+    <button id="clear-table">Clear Table</button><br><br>
+    <button id="gen-org-chart">Generate Tree</button>
 </div>
 <div class="tree-container" id="tree-box"></div>
 <canvas id="tree-lines" class="canvas"></canvas>
