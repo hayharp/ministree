@@ -71,20 +71,22 @@ function parse_input_table() { // Turns the input table into a usable format
     tree_roots = []
     for (let row = 1; row < input_table_rows.length; row ++) {
         let row_contents = input_table_rows[row].getElementsByTagName('td')
-        if (!(row_contents[0].textContent in tree)) {
-            tree[row_contents[0].textContent] = {}
-        }
-        tree[row_contents[0].textContent]['parent'] = row_contents[1].textContent
-        tree[row_contents[0].textContent]['role'] = row_contents[2].getElementsByTagName('select')[0].value
-        if (row_contents[1].textContent !== '') { // Attempt to add self to parent list, if person has one
-            if (!(row_contents[1].textContent in tree)) { // If parent is not in tree, instantiate them
-                tree[row_contents[1].textContent] = {}
-                tree[row_contents[1].textContent]['children'] = []
+        if (row_contents[0].textContent) {
+            if (!(row_contents[0].textContent in tree)) {
+                tree[row_contents[0].textContent] = {}
             }
-            if (!('children' in tree[row_contents[1].textContent])) {
-                tree[row_contents[1].textContent]['children'] = []
+            tree[row_contents[0].textContent]['parent'] = row_contents[1].textContent
+            tree[row_contents[0].textContent]['role'] = row_contents[2].getElementsByTagName('select')[0].value
+            if (row_contents[1].textContent !== '') { // Attempt to add self to parent list, if person has one
+                if (!(row_contents[1].textContent in tree)) { // If parent is not in tree, instantiate them
+                    tree[row_contents[1].textContent] = {}
+                    tree[row_contents[1].textContent]['children'] = []
+                }
+                if (!('children' in tree[row_contents[1].textContent])) {
+                    tree[row_contents[1].textContent]['children'] = []
+                }
+                tree[row_contents[1].textContent]['children'].push(row_contents[0].textContent)
             }
-            tree[row_contents[1].textContent]['children'].push(row_contents[0].textContent)
         }
     }
     for (key in tree) {
