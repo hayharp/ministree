@@ -69,7 +69,7 @@ ctx.canvas.height = window.innerHeight
 function parse_input_table() { // Turns the input table into a usable format
     tree = {}
     tree_roots = []
-    for (let row = 1; row < input_table_rows.length; row ++) {
+    for (let row = 1; row < input_table_rows.length; row ++) { // Add input table entries to tree
         let row_contents = input_table_rows[row].getElementsByTagName('td')
         if (row_contents[0].textContent) {
             if (!(row_contents[0].textContent in tree)) {
@@ -90,7 +90,7 @@ function parse_input_table() { // Turns the input table into a usable format
         }
     }
     for (key in tree) {
-        if (!('children' in tree[key])) {
+        if (!('children' in tree[key])) { // Add an empty list when there are no child nodes
             tree[key]['children'] = []
         }
         if (tree[key]['parent'] !== '') { // Get root of tree
@@ -123,7 +123,7 @@ function get_tree_dimensions(tree, tree_roots, split_num) { // Gets the number o
     var repeats = []
     let max_depth = 1
     var top_rows = [1]
-    for (person in tree_roots) {
+    for (person in tree_roots) { // Create "root" rows
         if (dimensions[1]['width'] < split_num) {
             tree[tree_roots[person]]['row'] = 1
             dimensions[1]['people'].push(tree_roots[person])
@@ -131,7 +131,7 @@ function get_tree_dimensions(tree, tree_roots, split_num) { // Gets the number o
                 max_depth = tree[tree_roots[person]]['depth']
             }
             dimensions[1]['width'] += 1
-        } else {
+        } else { // If split_num is surpassed, start a secondary row lower than the maximum depth of row 1 children
             if (!((max_depth + 1) in dimensions)) {
                 dimensions[max_depth + 1] = {'width': 0, 'people': []}
                 top_rows.push(max_depth + 1)
@@ -141,22 +141,12 @@ function get_tree_dimensions(tree, tree_roots, split_num) { // Gets the number o
             tree[tree_roots[person]]['row'] = max_depth + 1
         }
     }
-    for (person in tree) {
+    for (person in tree) { // Populate all other rows
         if (tree[person]['parent'] !== '') {
-            if ('row' in tree[tree[person]['parent']]) {
-                tree[person]['row'] = tree[tree[person]['parent']]['row'] + 1
-                if (!(tree[person]['row'] in dimensions)) {
-                    dimensions[tree[person]['row']] = {'width': 1, 'people': [person]}
-                } else {
-                    dimensions[tree[person]['row']]['width'] += 1
-                    dimensions[tree[person]['row']]['people'].push(person)
-                }
-            } else {
-                repeats.push(person)
-            }
+            repeats.push(person)
         }
     }
-    while (repeats.length > 0) {
+    while (repeats.length > 0) { // Do passes to populate all rows
         newrepeat = []
         for (personindex in repeats) {
             let person = repeats[personindex]
@@ -177,7 +167,7 @@ function get_tree_dimensions(tree, tree_roots, split_num) { // Gets the number o
     return [dimensions, top_rows]
 }
 
-function get_good_font_size(width, text) {
+function get_good_font_size(width, text) { // Gets an appropriate font size
     test_size = width / (text.split(' ')[0].length)
     if (test_size > 1.2) {
         test_size = 1.2
@@ -196,7 +186,7 @@ gen_btn.addEventListener('click', function() { // Generates org chart
     if (Object.keys(dimensions).length >= 5) {
         working_height = 80 / Object.keys(dimensions).length
     }
-    for (row in dimensions) {
+    for (row in dimensions) { // Adds row divs, primarily as an organizational technique
         let row_div = document.createElement('div')
         row_div.classList.add('row')
         row_div.id = `row_${parseInt(row)}`
@@ -204,7 +194,7 @@ gen_btn.addEventListener('click', function() { // Generates org chart
     }
     for (row in dimensions) {
         let row_div = document.getElementById(`row_${parseInt(row)}`)
-        if (top_rows.includes(parseInt(row))) { // Top rows
+        if (top_rows.includes(parseInt(row))) { // Populate top rows
             for (let i = 0; i < dimensions[row]['width']; i++) {
                 let new_box = document.createElement('div')
                 new_box.id = dimensions[row]['people'][i]
@@ -219,7 +209,7 @@ gen_btn.addEventListener('click', function() { // Generates org chart
                 }
                 row_div.appendChild(new_box)
             }
-        } else { // All other rows
+        } else { // Populate all other rows
             for (person in dimensions[parseInt(row - 1)]['people']) {
                 let parent = dimensions[parseInt(row - 1)]['people'][person]
                 let parent_node = document.getElementById(parent)
