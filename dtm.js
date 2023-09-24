@@ -201,7 +201,7 @@ gen_btn.addEventListener('click', function() { // Generates org chart
                 new_box.textContent = dimensions[row]['people'][i]
                 new_box.classList.add('tree-node')
                 new_box.style.backgroundColor = role_colors[tree[dimensions[row]['people'][i]]['role']]
-                new_box.style.width = `${100 / (dimensions[row]['width'] * 2 + 1)}%`
+                new_box.style.width = `${95 / (dimensions[row]['width'] * 2 + 1)}%`
                 new_box.style.left = `${100 * (2*i+.5) / (dimensions[row]['width'] * 2)}%` // Space top row evenly
                 new_box.style.top = `${working_height * parseInt(row)}%`
                 if (parseInt(row) == 1) {
