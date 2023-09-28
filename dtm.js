@@ -252,7 +252,7 @@ gen_btn.addEventListener('click', function() { // Generates org chart
                     if (tree[parent]['children'].length == 1) {
                         working_space = parseFloat(parent_node.style.left)
                     }
-                    new_box.style.top = `${working_height*parseInt(row)}%`
+                    new_box.style.top = `${working_height*row_val - 5}%`
                     new_box.style.fontSize = get_good_font_size(working_width, new_box.innerText)
                     new_box.style.width = `${working_width}%`
                     new_box.style.left = `${working_space - space_left}%`
