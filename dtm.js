@@ -1,11 +1,7 @@
 /* Discipleship Tree Maker by Nathan Hay (2023) */
 
 /* Input Table Management */
-var new_row_btn = document.getElementById('new-row')
-var rm_row_btn = document.getElementById('rm-row')
-var clear_table_btn = document.getElementById('clear-table')
-
-if (localStorage.getItem('input-table')) {
+if (localStorage.getItem('input-table')) { // Attempt to load table from storage
     document.getElementById('input-table').innerHTML = localStorage.getItem('input-table')
     var input_table = document.getElementById('input-table')
     let table_values = Array.from(input_table.getElementsByTagName('select'))
@@ -15,13 +11,10 @@ if (localStorage.getItem('input-table')) {
 } else {
     var input_table = document.getElementById('input-table')
 }
-var input_table_rows = input_table.getElementsByTagName('tbody')[0].getElementsByTagName('tr')
-var current_row = input_table_rows.length - 1
 
-new_row_btn.addEventListener('click', function() {  // Adds an empty row to the input table when new_row button is clicked
-    current_row += 1
+document.getElementById('new-row').addEventListener('click', function() {  // Adds an empty row to the input table when new_row button is clicked
     var tr = document.createElement('tr')
-    tr.setAttribute('id', `r${current_row}`)
+    tr.setAttribute('id', `r${input_table.getElementsByTagName('tbody')[0].children.length}`)
     tr.innerHTML =
         `<td contenteditable="true" class="name"></td>
         <td contenteditable="true" class="parent"></td>
@@ -33,21 +26,32 @@ new_row_btn.addEventListener('click', function() {  // Adds an empty row to the 
                 <option value="follow_up">Follow-Up</option>
                 <option value="other_leaders">Other Leaders</option>
             </select>
+        </td>
+        <td class="remover">
+            <button class="rm-row">X</button>
         </td>`
     input_table.getElementsByTagName('tbody')[0].append(tr)
 })
 
-rm_row_btn.addEventListener('click', function() { // Removes the last row from the input table when rm_row button is clicked
-    document.getElementById(`r${current_row}`).remove()
-    current_row -= 1
-})
-
-clear_table_btn.addEventListener('click', function() { // Clears the table and localStorage
-    for (let row = current_row; row > 0; row--) {
-        document.getElementById(`r${row}`).remove()
+document.addEventListener('click', function(elem) { // This function is document-level to handle dynamic button adding
+    var target = elem.target
+    if (target.className == 'rm-row') { // Handles row removal
+        document.getElementById(target.parentElement.parentElement.id).remove()
+        let r = 0
+        for (row of input_table.getElementsByTagName('tbody')[0].children) {
+            row.setAttribute('id', `r${r}`)
+            r++
+        }
     }
-    current_row = 0
-    localStorage.removeItem('input-table')
+    if (target.id == 'clear-table') { // Handles clearing of the table
+        input_table.getElementsByTagName('tbody')[0].innerHTML =
+            `<tr class="header">
+                <th>Name</th>
+                <th>Studies Under</th>
+                <th>Role</th>
+            </tr>`
+        localStorage.removeItem('input-table')
+    }
 })
 
 /* Tree Generator */
@@ -73,6 +77,7 @@ ctx.canvas.width = window.innerWidth
 ctx.canvas.height = window.innerHeight
 
 function parse_input_table() { // Turns the input table into a usable format
+    let input_table_rows = input_table.getElementsByTagName('tbody')[0].getElementsByTagName('tr')
     tree = {}
     tree_roots = []
     for (let row = 1; row < input_table_rows.length; row ++) { // Add input table entries to tree

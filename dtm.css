@@ -25,6 +25,10 @@ th, td {
     z-index: 1;
 }
 
+table, td:last-child {
+    border: none;
+}
+
 canvas {
     position: fixed;
     top: 0%;
