@@ -9,4 +9,4 @@ This is a demo of an automatic org-chart generator, focused on creating disciple
  * Spacing is automated by how much room is available surrounding the elements. To easily switch up ordering, enter all of the "roots" of each tree first, then reorder those as desired.
  * After many "root" level entries, names will spill into the second half of the screen. To change the person at which this split occurs, change the value of "Split lines at root number:"
 
-4. To save your image, take a screenshot. If you leave the ministree page, the data entered will be saved in localStorage.
+4. To save your image, take a screenshot. If you leave the ministree page, the data entered will be saved in localStorage, *so long as you have clicked "Generate Tree"*.
