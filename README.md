@@ -10,3 +10,6 @@ This is a demo of an automatic org-chart generator, focused on creating disciple
  * After many "root" level entries, names will spill into the second half of the screen. To change the person at which this split occurs, change the value of "Split lines at root number:"
 
 4. To save your image, take a screenshot. If you leave the ministree page, the data entered will be saved in localStorage, *so long as you have clicked "Generate Tree"*.
+
+## Notes
+Occasionally, updates will change the formatting of the input table. Clearing it should fix issues with any saved, old formatting.
