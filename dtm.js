@@ -189,9 +189,6 @@ function get_good_font_size(width, text) { // Gets an appropriate font size
 gen_btn.addEventListener('click', function() { // Generates org chart
     let table_values = Array.from(input_table.getElementsByTagName('select'))
     for (select in table_values) {
-        console.log(select)
-        console.log(table_values[select])
-        //console.log(select, table_values[select].value)
         table_values[select].setAttribute('value',  table_values[select].value) 
     }
     localStorage.setItem('input-table', input_table.innerHTML) // Saves the input table when the tree is generated
@@ -204,15 +201,14 @@ gen_btn.addEventListener('click', function() { // Generates org chart
     if (Object.keys(dimensions).length >= 5) {
         working_height = 80 / Object.keys(dimensions).length
     }
-    for (row in dimensions) { // Adds row divs, primarily as an organizational technique
-        let row_div = document.createElement('div')
-        row_div.classList.add('row')
-        row_div.id = `row_${parseInt(row)}`
-        tree_box.appendChild(row_div)
-    }
     for (row in dimensions) {
-        let row_div = document.getElementById(`row_${parseInt(row)}`)
-        if (top_rows.includes(parseInt(row))) { // Populate top rows
+        let row_div = document.createElement('div')
+        row_val = parseInt(row)
+        row_div.classList.add('row')
+        row_div.id = `row_${row_val}`
+        tree_box.appendChild(row_div)
+        row_div = document.getElementById(`row_${row_val}`)
+        if (top_rows.includes(row_val)) { // Populate top rows
             for (let i = 0; i < dimensions[row]['width']; i++) {
                 let new_box = document.createElement('div')
                 new_box.id = dimensions[row]['people'][i]
@@ -221,28 +217,28 @@ gen_btn.addEventListener('click', function() { // Generates org chart
                 new_box.style.backgroundColor = role_colors[tree[dimensions[row]['people'][i]]['role']]
                 new_box.style.width = `${95 / (dimensions[row]['width'] * 2 + 1)}%`
                 new_box.style.left = `${100 * (2*i+.5) / (dimensions[row]['width'] * 2)}%` // Space top row evenly
-                new_box.style.top = `${working_height * parseInt(row)}%`
-                if (parseInt(row) == 1) {
+                new_box.style.top = `${working_height * row_val - 5}%`
+                if (row == 1) {
                     new_box.style.top = '5%'
                 }
                 row_div.appendChild(new_box)
             }
         } else { // Populate all other rows
-            for (person in dimensions[parseInt(row - 1)]['people']) {
-                let parent = dimensions[parseInt(row - 1)]['people'][person]
+            for (person in dimensions[row_val - 1]['people']) {
+                let parent = dimensions[row_val - 1]['people'][person]
                 let parent_node = document.getElementById(parent)
                 let working_width = parseFloat(parent_node.style.width) / tree[parent]['children'].length
                 let space_left = 0
                 let space_right = 0
-                if (parseInt(person) > 0 & tree[parent]['children'].length > 1) {
-                    if (tree[dimensions[parseInt(row - 1)]['people'][person - 1]]['children'].length == 0) {
-                        space_left = parseFloat(document.getElementById(dimensions[parseInt(row - 1)]['people'][parseInt(person) - 1]).style.width)
+                if (person > 0 & tree[parent]['children'].length > 1) {
+                    if (tree[dimensions[row_val - 1]['people'][person - 1]]['children'].length == 0) {
+                        space_left = parseFloat(document.getElementById(dimensions[row_val - 1]['people'][person - 1]).style.width)
                         working_width += space_left / 4
                     }
                 }
-                if (parseInt(person) < dimensions[parseInt(row - 1)]['width'] - 1 & tree[parent]['children'].length > 1) {
-                    if (tree[dimensions[parseInt(row - 1)]['people'][parseInt(person) + 1]]['children'].length == 0) {
-                        space_right = parseFloat(document.getElementById(dimensions[parseInt(row - 1)]['people'][parseInt(person) + 1]).style.width)
+                if (person < dimensions[row_val - 1]['width'] - 1 & tree[parent]['children'].length > 1) {
+                    if (tree[dimensions[row_val - 1]['people'][+person + 1]]['children'].length == 0) {
+                        space_right = parseFloat(document.getElementById(dimensions[row_val - 1]['people'][+person + 1]).style.width)
                         working_width += space_right / 4
                     }
                 }
